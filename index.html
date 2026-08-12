@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Politics of Homing — Dark Matter Labs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Crimson+Pro:ital,wght@0,400;0,600;1,400;1,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #192640;
+    --orange: #F27F3D;
+    --white: #FFFFFF;
+    --cream: #F9F6F0;
+    --muted: #6B7280;
+    --border: #E5E0D8;
+    --text: #1A1A1A;
+
+    --fib-1: 8px;
+    --fib-2: 13px;
+    --fib-3: 21px;
+    --fib-4: 34px;
+    --fib-5: 55px;
+    --fib-6: 89px;
+    --fib-7: 144px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { font-size: 16px; scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: var(--navy);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--fib-4);
+    height: 52px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .nav-brand {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  .nav-link {
+    font-size: 12px;
+    color: rgba(255,255,255,0.45);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-link:hover { color: var(--orange); }
+
+  /* HERO */
+  .hero {
+    background: var(--navy);
+    padding: calc(52px + var(--fib-7)) var(--fib-4) var(--fib-6);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--fib-5);
+    align-items: end;
+    min-height: 480px;
+  }
+
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; }
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--orange);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: var(--fib-2);
+  }
+
+  .hero-title {
+    font-family: 'Crimson Pro', serif;
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: var(--fib-3);
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--orange);
+  }
+
+  .hero-subtitle {
+    font-family: 'Crimson Pro', serif;
+    font-size: 20px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.5;
+    font-style: italic;
+    max-width: 420px;
+  }
+
+  .hero-meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fib-2);
+    padding-bottom: 4px;
+  }
+
+  .meta-row {
+    display: flex;
+    gap: var(--fib-3);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: var(--fib-2);
+  }
+
+  .meta-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    min-width: 80px;
+    padding-top: 2px;
+  }
+
+  .meta-value {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.4;
+  }
+
+  /* COMPANION BANNER */
+  .companion-banner {
+    background: rgba(242,127,61,0.08);
+    border-left: 3px solid var(--orange);
+    padding: var(--fib-2) var(--fib-4);
+    display: flex;
+    align-items: center;
+    gap: var(--fib-3);
+  }
+
+  .companion-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--orange);
+    letter-spacing: 0.06em;
+  }
+
+  .companion-arrow {
+    font-size: 11px;
+    color: rgba(242,127,61,0.5);
+  }
+
+  /* NAV PILLS */
+  .section-nav {
+    position: sticky;
+    top: 52px;
+    z-index: 90;
+    background: var(--cream);
+    border-bottom: 1px solid var(--border);
+    padding: var(--fib-2) var(--fib-4);
+    display: flex;
+    gap: var(--fib-2);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .section-nav::-webkit-scrollbar { display: none; }
+
+  .section-pill {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    white-space: nowrap;
+    transition: all 0.15s;
+    letter-spacing: 0.04em;
+  }
+  .section-pill:hover {
+    border-color: var(--orange);
+    color: var(--orange);
+    background: rgba(242,127,61,0.04);
+  }
+
+  /* MAIN LAYOUT */
+  .main-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 var(--fib-4);
+  }
+
+  /* SECTION */
+  .section {
+    padding: var(--fib-6) 0;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: var(--fib-5);
+    align-items: start;
+  }
+
+  @media (max-width: 768px) {
+    .section { grid-template-columns: 1fr; gap: var(--fib-3); }
+    .section-sidebar { display: flex; gap: var(--fib-2); align-items: baseline; }
+  }
+
+  .section-sidebar {}
+
+  .section-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--orange);
+    letter-spacing: 0.08em;
+    display: block;
+    margin-bottom: var(--fib-1);
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+
+  .section-body {}
+
+  .section-heading {
+    font-family: 'Crimson Pro', serif;
+    font-size: 34px;
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin-bottom: var(--fib-3);
+  }
+
+  .section-thesis {
+    font-family: 'Crimson Pro', serif;
+    font-size: 19px;
+    font-style: italic;
+    color: var(--orange);
+    line-height: 1.5;
+    margin-bottom: var(--fib-3);
+    padding-left: var(--fib-2);
+    border-left: 2px solid var(--orange);
+  }
+
+  .body-text {
+    font-size: 15px;
+    color: #333;
+    line-height: 1.75;
+    margin-bottom: var(--fib-3);
+    max-width: 640px;
+  }
+
+  .body-text:last-child { margin-bottom: 0; }
+
+  strong { font-weight: 600; color: var(--navy); }
+
+  /* DIAGRAMS */
+  .diagram-wrap {
+    margin: var(--fib-4) 0;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .diagram-caption {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: var(--fib-2) var(--fib-3);
+    border-top: 1px solid var(--border);
+    background: var(--cream);
+  }
+
+  /* COMPARISON TABLE */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: var(--fib-3) 0;
+    max-width: 640px;
+  }
+
+  .compare-header {
+    background: var(--navy);
+    padding: var(--fib-2) var(--fib-3);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .compare-header.orange { background: rgba(242,127,61,0.12); color: var(--orange); }
+
+  .compare-cell {
+    background: var(--white);
+    padding: var(--fib-2) var(--fib-3);
+    font-size: 13px;
+    color: #444;
+    line-height: 1.5;
+  }
+
+  .compare-cell.faded { color: var(--muted); font-style: italic; }
+
+  /* HIGHLIGHT BOX */
+  .highlight-box {
+    background: rgba(25,38,64,0.04);
+    border-left: 3px solid var(--navy);
+    padding: var(--fib-3);
+    border-radius: 0 4px 4px 0;
+    margin: var(--fib-3) 0;
+    max-width: 640px;
+  }
+
+  .highlight-box p {
+    font-family: 'Crimson Pro', serif;
+    font-size: 17px;
+    color: var(--navy);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ORANGE HIGHLIGHT BOX */
+  .orange-box {
+    background: rgba(242,127,61,0.06);
+    border-left: 3px solid var(--orange);
+    padding: var(--fib-3);
+    border-radius: 0 4px 4px 0;
+    margin: var(--fib-3) 0;
+    max-width: 640px;
+  }
+
+  .orange-box p {
+    font-family: 'Crimson Pro', serif;
+    font-size: 17px;
+    color: #8B4A15;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* LOGIC CHAIN */
+  .logic-chain {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--fib-1);
+    align-items: center;
+    margin: var(--fib-3) 0;
+    max-width: 640px;
+  }
+
+  .logic-step {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    color: var(--navy);
+    letter-spacing: 0.02em;
+  }
+
+  .logic-arrow {
+    color: var(--orange);
+    font-size: 14px;
+  }
+
+  .logic-step.terminal {
+    background: var(--navy);
+    color: var(--white);
+    border-color: var(--navy);
+  }
+
+  /* COMPANION LINK SECTION */
+  .companion-section {
+    background: var(--navy);
+    padding: var(--fib-5) var(--fib-4);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--fib-5);
+    align-items: center;
+  }
+
+  @media (max-width: 768px) {
+    .companion-section { grid-template-columns: 1fr; }
+  }
+
+  .companion-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: var(--fib-2);
+  }
+
+  .companion-heading {
+    font-family: 'Crimson Pro', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: var(--fib-2);
+  }
+
+  .companion-desc {
+    font-size: 14px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.6;
+  }
+
+  .companion-link {
+    display: inline-block;
+    background: var(--orange);
+    color: var(--white);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    padding: var(--fib-2) var(--fib-3);
+    border-radius: 4px;
+    margin-top: var(--fib-3);
+    letter-spacing: 0.01em;
+    transition: opacity 0.2s;
+  }
+  .companion-link:hover { opacity: 0.85; }
+
+  /* BOOK STRUCTURE */
+  .book-structure {
+    max-width: 640px;
+    margin: var(--fib-3) 0;
+  }
+
+  .book-part {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: var(--fib-2);
+    background: var(--white);
+  }
+
+  .book-part-header {
+    padding: var(--fib-2) var(--fib-3);
+    background: var(--navy);
+    display: flex;
+    align-items: baseline;
+    gap: var(--fib-2);
+  }
+
+  .book-part-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--orange);
+    letter-spacing: 0.08em;
+  }
+
+  .book-part-title {
+    font-family: 'Crimson Pro', serif;
+    font-size: 16px;
+    color: var(--white);
+    font-weight: 600;
+  }
+
+  .book-part-body {
+    padding: var(--fib-2) var(--fib-3);
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* FALSIFIERS */
+  .falsifier-list {
+    max-width: 640px;
+    margin: var(--fib-3) 0;
+  }
+
+  .falsifier {
+    padding: var(--fib-2) 0;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: var(--fib-2);
+    align-items: start;
+  }
+
+  .falsifier:last-child { border-bottom: none; }
+
+  .falsifier-code {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--orange);
+    padding-top: 2px;
+  }
+
+  .falsifier-text {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.55;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--navy);
+    padding: var(--fib-5) var(--fib-4);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: var(--fib-3);
+    flex-wrap: wrap;
+  }
+
+  .footer-credit {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.06em;
+    line-height: 1.7;
+  }
+
+  .footer-type {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: rgba(255,255,255,0.2);
+    text-align: right;
+    letter-spacing: 0.04em;
+    line-height: 1.7;
+  }
+
+  /* INLINE TAG */
+  .tag {
+    display: inline-block;
+    background: rgba(242,127,61,0.1);
+    color: var(--orange);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    padding: 2px 7px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    vertical-align: middle;
+    margin-right: 4px;
+  }
+
+  .tag.navy {
+    background: rgba(25,38,64,0.07);
+    color: var(--navy);
+  }
+
+  svg text { font-family: 'Inter', sans-serif; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="https://dark-matter-labs.github.io/indy-llm-wiki/index.html" class="nav-brand">Dark Matter Labs · Civilization Options</a>
+  <a href="https://dark-matter-labs.github.io/indy-llm-wiki/power-construction.html" class="nav-link">Power Construction →</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <p class="hero-eyebrow">Working concept note</p>
+    <h1 class="hero-title">The Politics<br>of <em>Homing</em></h1>
+    <p class="hero-subtitle">Why the home is not where politics ends — it is where politics begins again.</p>
+  </div>
+  <div class="hero-meta">
+    <div class="meta-row">
+      <span class="meta-label">Type</span>
+      <span class="meta-value">Companion to Power Construction — a draft for contestation</span>
+    </div>
+    <div class="meta-row">
+      <span class="meta-label">Diagnosis</span>
+      <span class="meta-value">The home was mined to build the economy. Civil society bore the cost.</span>
+    </div>
+    <div class="meta-row">
+      <span class="meta-label">Argument</span>
+      <span class="meta-value">Homing — not home — is the foundation of a new civic politics</span>
+    </div>
+    <div class="meta-row">
+      <span class="meta-label">Updated</span>
+      <span class="meta-value">July 2026</span>
+    </div>
+  </div>
+</div>
+
+<!-- COMPANION BANNER -->
+<div class="companion-banner">
+  <span class="companion-text">This book is a companion to Power Construction</span>
+  <span class="companion-arrow">—</span>
+  <span class="companion-text" style="opacity:0.6">Read together, they argue that civic power requires both a theory of composition and a theory of the home that sustains it.</span>
+</div>
+
+<!-- SECTION NAV -->
+<div class="section-nav">
+  <a href="#01" class="section-pill">01 · The home as engine</a>
+  <a href="#02" class="section-pill">02 · How the home was mined</a>
+  <a href="#03" class="section-pill">03 · What we lost</a>
+  <a href="#04" class="section-pill">04 · From home to homing</a>
+  <a href="#05" class="section-pill">05 · A politics of homing</a>
+  <a href="#06" class="section-pill">06 · The constructive turn</a>
+  <a href="#07" class="section-pill">07 · What would falsify this</a>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-grid">
+
+  <!-- SECTION 01 -->
+  <section class="section" id="01">
+    <div class="section-sidebar">
+      <span class="section-number">01</span>
+      <span class="section-label">The home<br>as engine</span>
+    </div>
+    <div class="section-body">
+      <h2 class="section-heading">The home is not where politics happens to you. It is where you are made political — or not.</h2>
+      <div class="section-thesis">The modern home is a political settlement disguised as private life.</div>
+      <p class="body-text">We do not primarily face a housing crisis. We face a crisis of the institutional form through which dwelling has been organised — and an intimate expression of the deeper crisis of the world we continue to make and unmake.</p>
+      <p class="body-text">The dominant modern house encodes a particular theory of the self: separated, self-contained, ownable, mortgageable. Its walls do not merely divide inside from outside. They teach, every day, that the household is an autonomous unit — that one's dependencies are elsewhere, optional, and contracted-in. This is not architecture. It is ontology in brick and title.</p>
+      <p class="body-text"><strong>Separation defines the unit. Dominion establishes control over it. Extraction converts its relations into yield. Financialisation optimises and capitalises that yield.</strong> These four logics are not four separate pathologies. They are one recursive apparatus — and the house is the coupling device through which they reinforce one another across generations.</p>
+
+      <div class="diagram-wrap">
+        <svg width="100%" viewBox="0 0 680 300" role="img">
+          <title>The four logics of the modern home</title>
+          <desc>Four recursive logics — separation, dominion, extraction, financialisation — that form a self-reinforcing apparatus</desc>
+          <defs>
+            <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </marker>
+          </defs>
+
+          <!-- Four logic boxes -->
+          <!-- Separation -->
+          <rect x="40" y="60" width="140" height="70" rx="4" fill="#192640" stroke="none"/>
+          <text x="110" y="90" text-anchor="middle" font-size="13" font-weight="600" fill="#ffffff" font-family="Inter,sans-serif">Separation</text>
+          <text x="110" y="108" text-anchor="middle" font-size="11" fill="rgba(255,255,255,0.55)" font-family="Inter,sans-serif">produces the unit</text>
+
+          <!-- Dominion -->
+          <rect x="220" y="60" width="140" height="70" rx="4" fill="rgba(25,38,64,0.08)" stroke="#192640" stroke-width="0.8"/>
+          <text x="290" y="90" text-anchor="middle" font-size="13" font-weight="600" fill="#192640" font-family="Inter,sans-serif">Dominion</text>
+          <text x="290" y="108" text-anchor="middle" font-size="11" fill="#6B7280" font-family="Inter,sans-serif">assigns control</text>
+
+          <!-- Extraction -->
+          <rect x="400" y="60" width="140" height="70" rx="4" fill="rgba(25,38,64,0.08)" stroke="#192640" stroke-width="0.8"/>
+          <text x="470" y="90" text-anchor="middle" font-size="13" font-weight="600" fill="#192640" font-family="Inter,sans-serif">Extraction</text>
+          <text x="470" y="108" text-anchor="middle" font-size="11" fill="#6B7280" font-family="Inter,sans-serif">converts to yield</text>
+
+          <!-- Financialisation -->
+          <rect x="580" y="60" width="60" height="70" rx="4" fill="rgba(242,127,61,0.1)" stroke="#F27F3D" stroke-width="0.8"/>
+          <text x="610" y="90" text-anchor="middle" font-size="11" font-weight="600" fill="#8B4A15" font-family="Inter,sans-serif">Finan-</text>
+          <text x="610" y="106" text-anchor="middle" font-size="11" font-weight="600" fill="#8B4A15" font-family="Inter,sans-serif">cialises</text>
+
+          <!-- Forward arrows -->
+          <line x1="180" y1="95" x2="218" y2="95" stroke="#192640" stroke-width="1" marker-end="url(#arr)" opacity="0.5"/>
+          <line x1="360" y1="95" x2="398" y2="95" stroke="#192640" stroke-width="1" marker-end="url(#arr)" opacity="0.5"/>
+          <line x1="540" y1="95" x2="578" y2="95" stroke="#F27F3D" stroke-width="1.2" marker-end="url(#arr)"/>
+
+          <!-- Return loop -->
+          <path d="M610 130 Q610 200 440 210 Q280 220 110 200 Q60 190 60 130" fill="none" stroke="#F27F3D" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arr)" opacity="0.7"/>
+          <text x="340" y="235" text-anchor="middle" font-size="10" fill="#F27F3D" font-family="DM Mono,monospace" letter-spacing="0.04em" opacity="0.8">asset value reinforces boundary and dominion</text>
+
+          <!-- Label at top -->
+          <text x="340" y="35" text-anchor="middle" font-size="10" fill="#6B7280" font-family="DM Mono,monospace" letter-spacing="0.06em" text-transform="uppercase">THE RECURSIVE ENGINE OF THE MODERN HOME</text>
+        </svg>
+        <div class="diagram-caption">Four logics that constitute a single apparatus. Asset value (financialisation) reinforces the boundary (separation) and the rights of dominion. The circuit is self-sustaining.</div>
+      </div>
+
+      <p class="body-text">This is not a claim that every house is a prison. Home remains a genuine site of refuge, intimacy, memory, and autonomy. The crisis is that these real goods have become entangled with an institutional architecture that simultaneously produces debt, time poverty, gendered labour, ecological extraction, and social separation. The goods are real. So is the apparatus.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 02 -->
+  <section class="section" id="02">
+    <div class="section-sidebar">
+      <span class="section-number">02</span>
+      <span class="section-label">How the home<br>was mined</span>
+    </div>
+    <div class="section-body">
+      <h2 class="section-heading">We mined the home to build the economy. The home bore the cost. Civil society paid the price.</h2>
+      <div class="section-thesis">The financialised economy was not built from nothing. It was built by extracting time, care, and capacity from the household economy.</div>
+      <p class="body-text">Through mortgages, we converted future household labour into present capital. Through the double-income household, we drew both adults into full-time wage dependency — not to expand household freedom, but to meet housing costs whose rise was partly produced by that same expanded borrowing capacity. Time poverty was not an accident. It was a recursive outcome.</p>
+
+      <div class="diagram-wrap">
+        <svg width="100%" viewBox="0 0 680 320" role="img">
+          <title>The extraction circuit — how the home was mined</title>
+          <desc>A recursive circuit showing how housing costs create wage dependency which creates time poverty which creates commodified care which creates market dependency which creates more housing costs</desc>
+          <defs>
+            <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </marker>
+          </defs>
+
+          <!-- Title -->
+          <text x="340" y="28" text-anchor="middle" font-size="10" fill="#6B7280" font-family="DM Mono,monospace" letter-spacing="0.06em">THE EXTRACTION CIRCUIT</text>
+
+          <!-- Nodes in a horizontal loop: 5 steps -->
+          <!-- Step 1: Housing costs rise -->
+          <rect x="40" y="50" width="130" height="60" rx="4" fill="#192640" stroke="none"/>
+          <text x="105" y="76" text-anchor="middle" font-size="12" font-weight="600" fill="#ffffff" font-family="Inter,sans-serif">Housing costs</text>
+          <text x="105" y="93" text-anchor="middle" font-size="11" fill="rgba(255,255,255,0.55)" font-family="Inter,sans-serif">rise</text>
+
+          <!-- Step 2: Income required -->
+          <rect x="220" y="50" width="130" height="60" rx="4" fill="rgba(25,38,64,0.07)" stroke="#192640" stroke-width="0.7"/>
+          <text x="285" y="76" text-anchor="middle" font-size="12" font-weight="600" fill="#192640" font-family="Inter,sans-serif">Wage dependency</text>
+          <text x="285" y="93" text-anchor="middle" font-size="11" fill="#6B7280" font-family="Inter,sans-serif">intensifies</text>
+
+          <!-- Step 3: Time poverty -->
+          <rect x="400" y="50" width="130" height="60" rx="4" fill="rgba(25,38,64,0.07)" stroke="#192640" stroke-width="0.7"/>
+          <text x="465" y="76" text-anchor="middle" font-size="12" font-weight="600" fill="#192640" font-family="Inter,sans-serif">Time poverty</text>
+          <text x="465" y="93" text-anchor="middle" font-size="11" fill="#6B7280" font-family="Inter,sans-serif">expands</text>
+
+          <!-- Step 4: Commodified care (below right) -->
+          <rect x="400" y="195" width="130" height="60" rx="4" fill="rgba(242,127,61,0.08)" stroke="#F27F3D" stroke-width="0.7"/>
+          <text x="465" y="221" text-anchor="middle" font-size="12" font-weight="600" fill="#8B4A15" font-family="Inter,sans-serif">Care is bought</text>
+          <text x="465" y="238" text-anchor="middle" font-size="11" fill="#8B4A15" opacity="0.7" font-family="Inter,sans-serif">back from market</text>
+
+          <!-- Step 5: Market dependency (below left) -->
+          <rect x="220" y="195" width="130" height="60" rx="4" fill="rgba(242,127,61,0.06)" stroke="#F27F3D" stroke-width="0.7"/>
+          <text x="285" y="221" text-anchor="middle" font-size="12" font-weight="600" fill="#8B4A15" font-family="Inter,sans-serif">Market reliance</text>
+          <text x="285" y="238" text-anchor="middle" font-size="11" fill="#8B4A15" opacity="0.7" font-family="Inter,sans-serif">deepens</text>
+
+          <!-- Arrows -->
+          <line x1="170" y1="80" x2="218" y2="80" stroke="#192640" stroke-width="1" marker-end="url(#arr2)" opacity="0.5"/>
+          <line x1="350" y1="80" x2="398" y2="80" stroke="#192640" stroke-width="1" marker-end="url(#arr2)" opacity="0.5"/>
+          <line x1="465" y1="110" x2="465" y2="193" stroke="#F27F3D" stroke-width="1.2" marker-end="url(#arr2)"/>
+          <line x1="398" y1="225" x2="352" y2="225" stroke="#F27F3D" stroke-width="1.2" marker-end="url(#arr2)"/>
+          <line x1="220" y1="225" x2="160" y2="185" stroke="#F27F3D" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arr2)"/>
+          <path d="M105 110 Q105 280 105 170" fill="none" stroke="none"/>
+          <line x1="105" y1="110" x2="105" y2="145" stroke="#F27F3D" stroke-width="1" opacity="0.4"/>
+          <path d="M105 145 Q40 170 40 80" fill="none" stroke="#F27F3D" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arr2)"/>
+
+          <!-- Civil society cost label -->
+          <rect x="40" y="185" width="130" height="60" rx="4" fill="rgba(255,255,255,0)" stroke="#E5E0D8" stroke-width="0.7" stroke-dasharray="3 2"/>
+          <text x="105" y="211" text-anchor="middle" font-size="11" fill="#6B7280" font-family="Inter,sans-serif">Civil society</text>
+          <text x="105" y="227" text-anchor="middle" font-size="11" fill="#6B7280" font-family="Inter,sans-serif">hollowed out</text>
+
+          <line x1="105" y1="145" x2="105" y2="183" stroke="#6B7280" stroke-width="0.8" stroke-dasharray="3 2" marker-end="url(#arr2)" opacity="0.5"/>
+        </svg>
+        <div class="diagram-caption">The extraction circuit. Each stage creates the conditions for the next. Civil society bears the residual: time stripped from its base unit leaves associations unable to sustain themselves.</div>
+      </div>
+
+      <p class="body-text">The household economy is foundational. It produces viability: people capable of entering the world with care, language, confidence, and emotional coherence. Markets depend upon it while refusing to count it. The result is a structural contradiction: the household remains indispensable, but its capacity to perform its core functions has been steadily weakened.</p>
+
+      <div class="orange-box">
+        <p>The home became the reason for working and the place one has progressively less time to inhabit.</p>
+      </div>
+
+      <p class="body-text">The household was not simply neglected. It was mined. More wage dependency, more debt, more housing extraction, more outsourcing, more pressure on time: all of this was loaded onto households as though they could absorb it indefinitely. Care was first privatised into the household and then commodified as households were compelled to buy back the capacities that time poverty had eroded.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 03 -->
+  <section class="section" id="03">
+    <div class="section-sidebar">
+      <span class="section-number">03</span>
+      <span class="section-label">What we lost</span>
+    </div>
+    <div class="section-body">
+      <h2 class="section-heading">When the home loses capacity, civil society loses its base unit.</h2>
+      <div class="section-thesis">Neighbourlessness is not an emotional condition. It is a loss of operational capacity.</div>
+      <p class="body-text">When care, mobility, tools, energy, recreation, and spare capacity are privately duplicated inside each self-contained household, practical reliance on neighbours declines. Shared facilities and repeated encounters become less structurally necessary. As shared capacity weakens, private provision appears still more necessary. The circuit closes.</p>
+      <p class="body-text">The house-form removes the <em>need</em> to neighbour; the housing-cost regime removes the <em>time</em>. These two mechanisms are distinct. They require different remedies. Both must be named.</p>
+
+      <div class="highlight-box">
+        <p>Fewer relationships through which care can circulate, vulnerability can be recognised, resources can be pooled, risks can be sensed, and common action can be undertaken. This is what the Power Book calls the composition deficit — but it begins before any registry or protocol. It begins in the home.</p>
+      </div>
+
+      <p class="body-text">Power Construction identifies the substrate layer of civic power — the material and relational base from which participation is possible. The home is that substrate's first stratum. Where households are exhausted by rent, debt, precarious work, and depleted care, formal freedom of association becomes thin. A person without spare time cannot contribute reliably. A household without reserves cannot take risks.</p>
+
+      <div class="logic-chain">
+        <span class="logic-step">Home capacity stripped</span>
+        <span class="logic-arrow">→</span>
+        <span class="logic-step">Time poverty</span>
+        <span class="logic-arrow">→</span>
+        <span class="logic-step">Neighbouring declines</span>
+        <span class="logic-arrow">→</span>
+        <span class="logic-step">Association weakens</span>
+        <span class="logic-arrow">→</span>
+        <span class="logic-step terminal">Composition deficit</span>
+      </div>
+
+      <p class="body-text">This is why the rebuilding of household capacity is more than compensatory social policy. It is investment in civil society's power to act. The composition deficit described in Power Construction is partly downstream of the household deficit described here.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 04 -->
+  <section class="section" id="04">
+    <div class="section-sidebar">
+      <span class="section-number">04</span>
+      <span class="section-label">From home<br>to homing</span>
+    </div>
+    <div class="section-body">
+      <h2 class="section-heading">Civil society is amorphous. Homing is not.</h2>
+      <div class="section-thesis">Everyone has some idea of a home. Homing gives the politics of civil society a visceral, universal, economically grounded anchor it has never had.</div>
+
+      <p class="body-text">The word "civil society" has a fundamental problem: it is nobody's lived experience. It names an abstraction. When we try to organise around it, we find ourselves explaining what it is before we can argue for why it matters. People get stuck on civil society organisations rather than citizenry; on structures rather than the felt conditions of life together.</p>
+
+      <div class="compare-grid">
+        <div class="compare-header">Civil society</div>
+        <div class="compare-header orange">Homing</div>
+        <div class="compare-cell faded">Abstract category</div>
+        <div class="compare-cell">Lived practice — everyone has it</div>
+        <div class="compare-cell faded">No economic theory</div>
+        <div class="compare-cell">Rooted in household economics</div>
+        <div class="compare-cell faded">Amorphous — resists grip</div>
+        <div class="compare-cell">Specific and visceral</div>
+        <div class="compare-cell faded">Singular scale: the organisation</div>
+        <div class="compare-cell">Multi-scale: body, household, neighbourhood, commons</div>
+        <div class="compare-cell faded">Hard to politicise</div>
+        <div class="compare-cell">Already political — you protect your home</div>
+      </div>
+
+      <p class="body-text">The move from <em>home</em> to <em>homing</em> is not decorative. Home is a noun — a fixed thing to defend. Homing is a verb — a practice of belonging, at multiple scales simultaneously. A person is always homing: sustaining the conditions in which life can be reproduced, in a dwelling, in a neighbourhood, in a commons, in a political body.</p>
+
+      <div class="diagram-wrap">
+        <svg width="100%" viewBox="0 0 680 360" role="img">
+          <title>Scales of homing — from body to political body</title>
+          <desc>Five concentric scales of homing: body and dwelling at centre, then household, neighbourhood, commons, and civic/political body at the outside</desc>
+
+          <!-- Title -->
+          <text x="340" y="28" text-anchor="middle" font-size="10" fill="#6B7280" font-family="DM Mono,monospace" letter-spacing="0.06em">SCALES OF HOMING</text>
+
+          <!-- Concentric arcs / rings  -->
+          <!-- Outermost: Civic / political body -->
+          <ellipse cx="340" cy="195" rx="295" ry="145" fill="rgba(25,38,64,0.04)" stroke="#192640" stroke-width="0.5" stroke-dasharray="3 2"/>
+          <!-- Commons -->
+          <ellipse cx="340" cy="195" rx="235" ry="115" fill="rgba(25,38,64,0.05)" stroke="#192640" stroke-width="0.5" stroke-dasharray="3 2"/>
+          <!-- Neighbourhood -->
+          <ellipse cx="340" cy="195" rx="175" ry="85" fill="rgba(242,127,61,0.04)" stroke="#F27F3D" stroke-width="0.5" stroke-dasharray="3 2"/>
+          <!-- Household -->
+          <ellipse cx="340" cy="195" rx="115" ry="56" fill="rgba(242,127,61,0.07)" stroke="#F27F3D" stroke-width="0.8"/>
+          <!-- Body / dwelling -->
+          <ellipse cx="340" cy="195" rx="60" ry="30" fill="#F27F3D"/>
+
+          <!-- Labels -->
+          <text x="340" y="192" text-anchor="middle" font-size="12" font-weight="600" fill="#ffffff" font-family="Inter,sans-serif">Body</text>
+          <text x="340" y="207" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.8)" font-family="Inter,sans-serif">+ dwelling</text>
+
+          <text x="340" y="152" text-anchor="middle" font-size="11" font-weight="600" fill="#8B4A15" font-family="Inter,sans-serif">Household</text>
+          <text x="340" y="246" text-anchor="middle" font-size="11" font-weight="600" fill="#8B4A15" font-family="Inter,sans-serif">Household</text>
+
+          <text x="340" y="117" text-anchor="middle" font-size="11" fill="#192640" font-family="Inter,sans-serif">Neighbourhood</text>
+          <text x="340" y="280" text-anchor="middle" font-size="11" fill="#192640" font-family="Inter,sans-serif">Neighbourhood</text>
+
+          <text x="340" y="86" text-anchor="middle" font-size="10" fill="#6B7280" font-family="Inter,sans-serif">Commons</text>
+          <text x="340" y="310" text-anchor="middle" font-size="10" fill="#6B7280" font-family="Inter,sans-serif">Commons</text>
+
+          <text x="340" y="57" text-anchor="middle" font-size="10" fill="#9CA3AF" font-family="Inter,sans-serif">Civic · Political body</text>
+          <text x="340" y="338" text-anchor="middle" font-size="10" fill="#9CA3AF" font-family="Inter,sans-serif">Civic · Political body</text>
+        </svg>
+        <div class="diagram-caption">Homing is not one scale — it is a practice that operates across all of them simultaneously. A politics of homing can move between them without losing its material anchor.</div>
+      </div>
+
+      <p class="body-text">This also dissolves the false boundary of civil society. The pub is part of homing. The neighbourhood kitchen is part of homing. The allotment, the community trust, the street — all of these are sites where homing is practised. The politics of homing can include them without definitional gymnastics.</p>
+
+      <p class="body-text">The prefix <em>eco</em> — in ecology, economics, ecosystem — comes from the Greek <em>oikos</em>: the home. It was always supposed to be a politics of balance and care. It never was. The politics of homing is the attempt to make that etymology real.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 05 -->
+  <section class="section" id="05">
+    <div class="section-sidebar">
+      <span class="section-number">05</span>
+      <span class="section-label">A politics<br>of homing</span>
+    </div>
+    <div class="section-body">
+      <h2 class="section-heading">A new homing politics gives power its hard edge — and its human scale.</h2>
+      <div class="section-thesis">Where Power Construction asks how distributed agency becomes consequential capacity, the politics of homing asks what kind of life must be possible before that question can be answered at all.</div>
+
+      <p class="body-text">The two books share a common substrate layer. Power Construction identifies the home as the first stratum of civic capacity: the source of time, security, reserves, care, learning, and digital access from which participation flows. Without that stratum in reasonable condition, the whole architecture above it is aspirational fiction.</p>
+
+      <p class="body-text">The politics of homing develops what Power Construction only names. It argues that reconstituting the household as a site of care, capacity, and civic formation is not compensatory welfare. It is the precondition of any meaningful theory of collective power.</p>
+
+      <div class="highlight-box">
+        <p>Power grows through proof, Power Construction argues. But proof requires participants. Participants require time. Time requires a household that is not entirely consumed by its own reproduction. The home is not the end of politics. It is its substrate.</p>
+      </div>
+
+      <p class="body-text">The politics of homing is also a theory of authority. Who has the right to decide what a home is for? The dominant answer — the mortgage lender, the planner, the market — has produced separation, dominion, extraction, and financialisation. A homing politics argues for a different constitutional order of the dwelling: one in which the conditions of life together — care, time, neighbouring, ecological relation — have standing alongside financial return.</p>
+
+      <p class="body-text">This connects directly to Power Construction's constitutional substrate: the commitment that civic power must be constituted and bounded through accountable, corrigible protocols. The home is where that commitment either has material grounding or does not. An abstract right of association means little to someone working two jobs to cover housing costs in a city that has financialised every square metre.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 06 -->
+  <section class="section" id="06">
+    <div class="section-sidebar">
+      <span class="section-number">06</span>
+      <span class="section-label">The constructive<br>turn</span>
+    </div>
+    <div class="section-body">
+      <h2 class="section-heading">The task is not to restore the home. It is to reconstitute it on different terms.</h2>
+      <div class="section-thesis">Distinction without severance. Privacy without the denial of interdependence. Security without systematic exclusion. Investment without single-capital sovereignty.</div>
+
+      <p class="body-text">The next household economy is neither pure privatisation nor total collectivisation. It is a layered system in which household autonomy is strengthened precisely because some of the burdens currently crushing it are redistributed into more durable and shared infrastructures.</p>
+
+      <p class="body-text">Once assets are shared, the burden on each individual household declines. Once care is shared, time pressure can be lowered. Once some forms of provisioning are held collectively, the household no longer has to purchase every missing function through market income. This creates the possibility of rebuilding slack within everyday life — the temporal and relational surplus from which civic participation, democratic capacity, and common action become possible again.</p>
+
+      <div class="book-structure">
+        <div class="book-part">
+          <div class="book-part-header">
+            <span class="book-part-num">PART 1</span>
+            <span class="book-part-title">The home as engine</span>
+          </div>
+          <div class="book-part-body">The speculative example first: how a family's everyday life in 2035 might look different if the household economy were designed for viability rather than extraction. Then the pattern. Then the theory.</div>
+        </div>
+        <div class="book-part">
+          <div class="book-part-header">
+            <span class="book-part-num">PART 2</span>
+            <span class="book-part-title">How we mined it</span>
+          </div>
+          <div class="book-part-body">The historical and structural account. Mortgages, dual income, time poverty, care commodification, financialisation. Civil society's composition deficit as a downstream consequence.</div>
+        </div>
+        <div class="book-part">
+          <div class="book-part-header">
+            <span class="book-part-num">PART 3</span>
+            <span class="book-part-title">From home to homing</span>
+          </div>
+          <div class="book-part-body">The conceptual move. From noun to verb. From protected enclosure to practised belonging at multiple scales. Why homing gives civil society the hard edge it has always lacked.</div>
+        </div>
+        <div class="book-part">
+          <div class="book-part-header">
+            <span class="book-part-num">PART 4</span>
+            <span class="book-part-title">The politics</span>
+          </div>
+          <div class="book-part-body">What a homing politics demands: a constitutional order of the dwelling; the household as civic infrastructure; the conditions under which a new household economy can be built; and its connection to the composition of civic power described in the Power Book.</div>
+        </div>
+      </div>
+
+      <p class="body-text">The book argues inductively: speculative example first, pattern extraction second, theoretical framework third. It does not open with a diagnosis. It opens with possibility — with a recognisable but different way of living — and then works backwards to show what would make it structurally possible. This is the same argumentative structure as Power Construction.</p>
+    </div>
+  </section>
+
+  <!-- SECTION 07 -->
+  <section class="section" id="07">
+    <div class="section-sidebar">
+      <span class="section-number">07</span>
+      <span class="section-label">What would<br>falsify this</span>
+    </div>
+    <div class="section-body">
+      <h2 class="section-heading">A working argument owes its failure conditions.</h2>
+
+      <div class="falsifier-list">
+        <div class="falsifier">
+          <span class="falsifier-code">F1</span>
+          <span class="falsifier-text"><strong>The substrate claim fails.</strong> If consequential civic participation is thriving in households that are exhausted, financially precarious, and time-poor — if the composition deficit cannot be shown to depend on household capacity — the argument that the home is the substrate of power loses its force.</span>
+        </div>
+        <div class="falsifier">
+          <span class="falsifier-code">F2</span>
+          <span class="falsifier-text"><strong>The universality claim fails.</strong> If "homing" does not in practice feel more universal than "civil society" — if it elicits the same abstraction, the same CSO-think, the same disconnection from lived experience — the rhetorical wager of this book is lost.</span>
+        </div>
+        <div class="falsifier">
+          <span class="falsifier-code">F3</span>
+          <span class="falsifier-text"><strong>The ontological claim fails.</strong> If the separative ontology of the modern home is not taught through daily inhabitation — if people who live in self-contained, financialised dwellings do not disproportionately exhibit separative political dispositions — the naturalisation channel described in Section 01 does not hold.</span>
+        </div>
+        <div class="falsifier">
+          <span class="falsifier-code">F4</span>
+          <span class="falsifier-text"><strong>The reconstruction claim fails.</strong> If, where genuinely shared provisioning is available and well-designed — tool libraries, common kitchens, shared energy, co-housing — households still maintain full private duplication, then the drive to separate is a preference, not a structural compulsion, and the constructive argument weakens to taste.</span>
+        </div>
+        <div class="falsifier">
+          <span class="falsifier-code">F5</span>
+          <span class="falsifier-text"><strong>The political claim fails.</strong> If the politics of homing cannot cross the lines of tenure, class, and housing form — if it speaks only to property-owning anxieties about protection — it reproduces the incumbency channel rather than countering it.</span>
+        </div>
+      </div>
+
+      <p class="body-text" style="margin-top: var(--fib-3);">None of these falsifiers is currently met on available evidence. But the argument stands under them, not above them. The Heart Power portfolio provides one test: the interventions across survival, mobilisation, and legal infrastructure either build the substrate the politics of homing claims is necessary — or they do not.</p>
+    </div>
+  </section>
+
+</div>
+
+<!-- COMPANION LINK -->
+<div class="companion-section">
+  <div>
+    <p class="companion-label">Companion book</p>
+    <h2 class="companion-heading">Power Construction:<br>A New Economy of Civic Power</h2>
+    <p class="companion-desc">The politics of homing names the substrate. Power Construction develops what is built on top of it — the composition pathways, registries, and constitutional conditions through which distributed agency becomes consequential capacity.</p>
+    <a href="https://dark-matter-labs.github.io/indy-llm-wiki/power-construction.html" class="companion-link">Read Power Construction →</a>
+  </div>
+  <div>
+    <p class="companion-label" style="color:rgba(255,255,255,0.3)">How they connect</p>
+    <div style="display:flex;flex-direction:column;gap:var(--fib-2);margin-top:var(--fib-2)">
+      <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:var(--fib-2)">
+        <p style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,0.3);letter-spacing:0.06em;margin-bottom:4px">POLITICS OF HOMING</p>
+        <p style="font-size:13px;color:rgba(255,255,255,0.55);line-height:1.5">Names the substrate: what kind of home, household economy, and everyday material condition makes civic participation possible at all</p>
+      </div>
+      <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:var(--fib-2)">
+        <p style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,0.3);letter-spacing:0.06em;margin-bottom:4px">POWER CONSTRUCTION</p>
+        <p style="font-size:13px;color:rgba(255,255,255,0.55);line-height:1.5">Develops the architecture: how distributed contributions are composed into consequential civic power, once the substrate exists</p>
+      </div>
+      <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:var(--fib-2)">
+        <p style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,0.3);letter-spacing:0.06em;margin-bottom:4px">TOGETHER</p>
+        <p style="font-size:13px;color:rgba(255,255,255,0.55);line-height:1.5">A theory of civic power that is materially grounded: the home sustains the participant; the participant composes the power</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-credit">
+    Dark Matter Labs · Civilization Options<br>
+    Working draft · 2026 · Published for contestation, not as a settled position<br>
+    Styled with the xCO Dusk Tritone system · <a href="https://dark-matter-labs.github.io/indy-llm-wiki/index.html" style="color:rgba(255,255,255,0.3);text-decoration:none;">Dark Matter Labs</a>
+  </div>
+  <div class="footer-type">
+    POH/HC v0.1<br>
+    FALSIFIERS 05<br>
+    SCALES 05
+  </div>
+</footer>
+
+</body>
+</html>
